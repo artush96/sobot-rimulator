@@ -29,7 +29,7 @@ from frame import *
 from painter import *
 
 DEFAULT_VIEW_PIX_W = 800    # pixels
-DEFAULT_VIEW_PIX_H = 800    # pixels
+DEFAULT_VIEW_PIX_H = 600    # pixels
 DEFAULT_ZOOM = 100          # pixels per meter
 
 # user response codes for file chooser dialog buttons
@@ -123,7 +123,7 @@ class Viewer:
     self.button_random_map.connect( 'clicked', self.on_random_map )
     
     # build the draw-invisibles toggle button
-    self.draw_invisibles = False                  # controls whether invisible world elements are displayed
+    self.draw_invisibles = True                  # controls whether invisible world elements are displayed
     self.button_draw_invisibles = gtk.Button()
     self._decorate_draw_invisibles_button_inactive()
     self.button_draw_invisibles.set_image_position( gtk.POS_LEFT )

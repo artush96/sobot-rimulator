@@ -41,7 +41,7 @@ class AvoidObstaclesController:
     # control gains
     self.kP = 20.0
     self.kI = 0.0
-    self.kD = 0.0
+    self.kD = 1.0
     
     # stored values - for computing next results
     self.prev_time = 0.0
@@ -49,7 +49,7 @@ class AvoidObstaclesController:
     self.prev_eI = 0.0
 
     # key vectors and data (initialize to any non-zero vector)
-    self.obstacle_vectors = [ [ 1.0, 0.0 ] ] * len( self.proximity_sensor_placements )
+    self.obstacle_vectors = [ [ 2.0, 0.0 ] ] * len( self.proximity_sensor_placements )
     self.ao_heading_vector = [ 1.0, 0.0 ]
 
   def update_heading( self ):

@@ -26,8 +26,8 @@ from line_segment import *
 from pose import *
 from sensor import *
 
-MIN_READ_VALUE = 18
-MAX_READ_VALUE = 3960
+MIN_READ_VALUE = 0.18
+MAX_READ_VALUE = 0.950
 
 class ProximitySensor( Sensor ):
 
@@ -38,6 +38,7 @@ class ProximitySensor( Sensor ):
                       phi_view ):     # view angle of this sensor (rad from front of robot)
     
     
+
     # bind the robot
     self.robot = robot
 

@@ -40,7 +40,7 @@ class FollowWallController:
     self.proximity_sensor_placements = supervisor.proximity_sensor_placements()
 
     # wall-follow parameters
-    self.follow_distance = 0.15 # meters from the center of the robot to the wall
+    self.follow_distance = 0.30 # meters from the center of the robot to the wall
 
     # control gains
     self.kP = 10.0

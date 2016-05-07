@@ -39,7 +39,7 @@ K3_MAX_WHEEL_DRIVE_RATE = 15.0  # rad/s
 C2_WHEEL_RADIUS = 0.036          # meters
 C2_WHEEL_BASE_LENGTH = 0.235     # meters
 C2_WHEEL_TICKS_PER_REV = 508.8
-C2_MAX_WHEEL_DRIVE_RATE = 13.9   # rad/s
+C2_MAX_WHEEL_DRIVE_RATE = 7.0   # rad/s 13.9
 
 
 # Khepera III Dimensions
@@ -72,8 +72,8 @@ C2_BOTTOM_PLATE = [[ -0.043,  0.159 ],
 
 K3_SENSOR_MIN_RANGE = 0.02
 K3_SENSOR_MAX_RANGE = 0.2
-C2_SENSOR_MIN_RANGE = 0.04
-C2_SENSOR_MAX_RANGE = 0.8
+C2_SENSOR_MIN_RANGE = 0.02
+C2_SENSOR_MAX_RANGE = 0.9
 
 K3_SENSOR_POSES = [[ -0.038,  0.048,  128 ], # x, y, theta_degrees
                    [  0.019,  0.064,  75  ],
@@ -85,20 +85,29 @@ K3_SENSOR_POSES = [[ -0.038,  0.048,  128 ], # x, y, theta_degrees
                    [ -0.038, -0.048, -128 ],
                    [ -0.048,  0.000,  180 ]]
                    
-C2_SENSOR_POSES = [[  0.174, 0.0,  75  ],
-                   [  0.174, 0.0,  45  ],
-                   [  0.174, 0.0,  15  ],
-                   [  0.174, 0.0, -15  ],
-                   [  0.174, 0.0, -45  ],
-                   [  0.174, 0.0, -75  ]]
+C2_SENSOR_POSES = [[  0.173, 0.0,  90  ],
+                   [  0.173, 0.0,  45  ],
+                   [  0.173, 0.0,  15  ],
+                   [  0.173, 0.0, -15  ],
+                   [  0.173, 0.0, -45  ],
+                   [  0.173, 0.0, -90  ]]
+
+
+#C2_SENSOR_POSES = [[  0.045,  0.168,  90  ],
+#                   [  0.123,  0.123,  45  ],
+#                   [  0.168,  0.045,  15  ],
+#                   [  0.168, -0.045, -15  ],
+#                   [  0.123, -0.123, -45  ],
+#                   [  0.045, -0.168, -90  ]]
+
 
 # Khepera III robot 
 class Robot: # Create2 robot 
   
   def __init__( self ):
     # geometry
-    self.geometry = Polygon( C2_BOTTOM_PLATE )
-    self.global_geometry = Polygon( C2_BOTTOM_PLATE ) # actual geometry in world space
+    self.geometry = Polygon( K3_BOTTOM_PLATE )
+    self.global_geometry = Polygon( K3_BOTTOM_PLATE ) # actual geometry in world space
 
     # wheel arrangement
     self.wheel_radius = C2_WHEEL_RADIUS             # meters

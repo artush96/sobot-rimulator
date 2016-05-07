@@ -60,7 +60,7 @@ class Supervisor:
 
     # proximity sensor information
     self.proximity_sensor_placements = [ Pose( rawpose[0], rawpose[1], radians( rawpose[2] ) ) for rawpose in sensor_placements ]
-    self.proximity_sensor_max_range = sensor_range
+    self.proximity_sensor_max_range = 5*sensor_range
 
     # odometry information
     self.robot_wheel_radius = wheel_radius
@@ -136,7 +136,9 @@ class Supervisor:
 
   # update the distances indicated by the proximity sensors
   def _update_proximity_sensor_distances( self ):
-    self.proximity_sensor_distances = [ 0.02-( log(readval/3960.0) )/30.0
+    #self.proximity_sensor_distances = [ 0.02-( log(readval/3960.0) )/30.0
+    #                                    for readval in self.robot.read_proximity_sensors() ]
+    self.proximity_sensor_distances = [ readval
                                         for readval in self.robot.read_proximity_sensors() ]
 
   # update the estimated position of the robot using it's wheel encoder readings
