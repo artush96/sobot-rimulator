@@ -39,7 +39,7 @@ class AvoidObstaclesController:
                           for p in supervisor.proximity_sensor_placements() ]
 
     # control gains
-    self.kP = 10.0
+    self.kP = 20.0
     self.kI = 0.0
     self.kD = 0.0
     
@@ -83,7 +83,7 @@ class AvoidObstaclesController:
     self.supervisor.set_outputs( v, omega )
 
     # === FOR DEBUGGING ===
-    # self._print_vars( eP, eI, eD, v, omega )
+    self._print_vars( eP, eI, eD, v, omega )
 
   # return a obstacle avoidance vector in the robot's reference frame
   # also returns vectors to detected obstacles in the robot's reference frame
