@@ -37,6 +37,8 @@ from controllers.gtg_and_ao_controller import *
 # control parameters
 K3_TRANS_VEL_LIMIT = 0.3148     # m/s
 K3_ANG_VEL_LIMIT = 2.2763       # rad/s
+C2_TRANS_VEL_LIMIT = 0.5     # m/s
+C2_ANG_VEL_LIMIT = 4.25       # rad/s
 
 class Supervisor:
 
@@ -87,8 +89,10 @@ class Supervisor:
     self.goal = goal
 
     # control bounds
-    self.v_max = K3_TRANS_VEL_LIMIT
-    self.omega_max = K3_ANG_VEL_LIMIT
+    # self.v_max = K3_TRANS_VEL_LIMIT
+    # self.omega_max = K3_ANG_VEL_LIMIT
+    self.v_max = C2_TRANS_VEL_LIMIT
+    self.omega_max = C2_ANG_VEL_LIMIT
 
     # CONTROL OUTPUTS - UNICYCLE
     self.v_output = 0.0
