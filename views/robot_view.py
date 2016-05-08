@@ -33,6 +33,21 @@ K3_TOP_PLATE = [[ -0.031,  0.043 ],
                 [  0.052,  0.021 ],
                 [  0.033,  0.043 ]]
 
+# iRobot Create  2 Dimensions
+C2_TOP_PLATE = [[ -0.043,  0.159 ],
+                [  0.045,  0.168 ],
+                [  0.123,  0.123 ],
+                [  0.168,  0.045 ],
+                [  0.168, -0.045 ],
+                [  0.123, -0.123 ],
+                [  0.045, -0.168 ],
+                [ -0.043, -0.159 ],
+                [ -0.117, -0.117 ],
+                [ -0.159, -0.043 ],
+                [ -0.159,  0.043 ],
+                [ -0.117,  0.117 ]]
+
+                
 class RobotView:
   
   def __init__( self, viewer, robot ):
@@ -65,11 +80,11 @@ class RobotView:
     # draw the robot
     robot_bottom = self.robot.global_geometry.vertexes
     self.viewer.current_frame.add_polygons( [ robot_bottom ],
-                                            color = "blue",
+                                            color = "green",
                                             alpha = 0.5 ) 
     # add decoration
     robot_pos, robot_theta = self.robot.pose.vunpack()
-    robot_top = linalg.rotate_and_translate_vectors( K3_TOP_PLATE, robot_theta, robot_pos )
+    robot_top = linalg.rotate_and_translate_vectors( C2_TOP_PLATE, robot_theta, robot_pos )
     self.viewer.current_frame.add_polygons( [ robot_top ],
                                             color = "black",
                                             alpha = 0.5 )
