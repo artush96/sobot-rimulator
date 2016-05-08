@@ -148,6 +148,7 @@ class Supervisor:
 
     # read the wheel encoder values
     ticks_left, ticks_right = self.robot.read_wheel_encoders()
+    print "supervisor enc left: ", str(ticks_left), " enc right: ", str(ticks_right)
 
     # get the difference in ticks since the last iteration
     d_ticks_left = ticks_left - self.prev_ticks_left
@@ -165,6 +166,7 @@ class Supervisor:
     new_theta = prev_theta + ( ( d_right_wheel - d_left_wheel ) / self.robot_wheel_base_length )
 
     # update the pose estimate with the new values
+    print "supervisor coord(", str(new_x),",",str(new_y), ")"
     self.estimated_pose.supdate( new_x, new_y, new_theta )
 
     # save the current tick count for the next iteration

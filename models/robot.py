@@ -38,8 +38,8 @@ K3_MAX_WHEEL_DRIVE_RATE = 15.0  # rad/s
 # Create2 Properties
 C2_WHEEL_RADIUS = 0.036          # meters
 C2_WHEEL_BASE_LENGTH = 0.235     # meters
-C2_WHEEL_TICKS_PER_REV = 508.8
-C2_MAX_WHEEL_DRIVE_RATE = 7.0   # rad/s 13.9
+C2_WHEEL_TICKS_PER_REV = 508.8   # Create2 = 508.8
+C2_MAX_WHEEL_DRIVE_RATE = 13.9   # rad/s 13.9
 
 
 # Khepera III Dimensions
@@ -106,8 +106,8 @@ class Robot: # Create2 robot
   
   def __init__( self ):
     # geometry
-    self.geometry = Polygon( K3_BOTTOM_PLATE )
-    self.global_geometry = Polygon( K3_BOTTOM_PLATE ) # actual geometry in world space
+    self.geometry = Polygon( C2_BOTTOM_PLATE )
+    self.global_geometry = Polygon( C2_BOTTOM_PLATE ) # actual geometry in world space
 
     # wheel arrangement
     self.wheel_radius = C2_WHEEL_RADIUS             # meters

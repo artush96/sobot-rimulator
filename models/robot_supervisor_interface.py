@@ -16,15 +16,25 @@
 # 
 # Email mccrea.engineering@gmail.com for questions, comments, or to report bugs.
 
-
-
-
+from irobotcreate2control import *
 
 # a class representing the available interactions a supervisor may have with a robot
 class RobotSupervisorInterface:
 
   def __init__( self, robot ):
     self.robot = robot
+
+    #first get the Create2 robot object
+    self.robotComm = IRobotCreate2Control()
+    #then connect with it through serial
+    self.robotComm.connectIRobotCreate('/dev/ttyUSB0')
+    self.robotComm.sendControlKey('P')
+    self.robotComm.sendControlKey('S')
+    self.robotComm.sendControlKey('SPACE')  # for a beep
+
+    #initial encoder read to turn to 0. 
+    self.leftEncAt0, self.rightEncAt0 = self.robotComm.getEncoders()
+    
   
   # read the proximity sensors
   def read_proximity_sensors( self ):
@@ -32,8 +42,16 @@ class RobotSupervisorInterface:
 
   # read the wheel encoders
   def read_wheel_encoders( self ):
-    return [ e.read() for e in self.robot.wheel_encoders ]
+    leftEnc, rightEnc = self.robotComm.getEncoders()
+    print "rob int encoder left: ", str(leftEnc), " right: ", str(rightEnc)
+    return [leftEnc-self.leftEncAt0, rightEnc-self.rightEncAt0]
+    #return [ e.read() for e in self.robot.wheel_encoders ]
 
   # apply wheel drive command
   def set_wheel_drive_rates( self, v_l, v_r ):
     self.robot.set_wheel_drive_rates( v_l, v_r )
+    print ">> sending command to robot!"
+    print "v_l = ", v_l
+    print "v_r = ", v_r
+    self.robotComm.sendDriveCommand(v_r, v_l)
+

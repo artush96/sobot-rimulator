@@ -33,6 +33,7 @@ class DifferentialDriveDynamics:
   def apply_dynamics( self, v_l, v_r, d_t,                                # dynamics parameters
                             pose, wheel_encoders ):                       # the moving parts
 
+
     # calculate the change in wheel angle (in radians)
     d_angle_left  = d_t * v_l
     d_angle_right = d_t * v_r
