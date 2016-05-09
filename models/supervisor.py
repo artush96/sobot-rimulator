@@ -58,7 +58,7 @@ class Supervisor:
 
     # proximity sensor information
     self.proximity_sensor_placements = [ Pose( rawpose[0], rawpose[1], radians( rawpose[2] ) ) for rawpose in sensor_placements ]
-    self.proximity_sensor_max_range = sensor_range
+    self.proximity_sensor_max_range = 5*sensor_range
 
     # odometry information
     self.robot_wheel_radius = wheel_radius
@@ -132,7 +132,7 @@ class Supervisor:
 
   # update the distances indicated by the proximity sensors
   def _update_proximity_sensor_distances( self ):
-    self.proximity_sensor_distances = [ 0.02-( log(readval/3960.0) )/30.0
+    self.proximity_sensor_distances = [ (0.02-( log(readval/3960.0) )/30.0)
                                         for readval in self.robot.read_proximity_sensors() ]
 
   # update the estimated position of the robot using it's wheel encoder readings
@@ -142,6 +142,7 @@ class Supervisor:
 
     # read the wheel encoder values
     ticks_left, ticks_right = self.robot.read_wheel_encoders()
+    #print "sup ticks (L:", str(ticks_left),",R:",str(ticks_right),")"    
 
     # get the difference in ticks since the last iteration
     d_ticks_left = ticks_left - self.prev_ticks_left
@@ -159,6 +160,7 @@ class Supervisor:
     new_theta = prev_theta + ( ( d_right_wheel - d_left_wheel ) / self.robot_wheel_base_length )
 
     # update the pose estimate with the new values
+    print "supervisor coord(",str(new_x),",",str(new_y),")"
     self.estimated_pose.supdate( new_x, new_y, new_theta )
 
     # save the current tick count for the next iteration
@@ -171,8 +173,23 @@ class Supervisor:
     v = max( min( self.v_output, self.v_max ), -self.v_max )
     omega = max( min( self.omega_output, self.omega_max ), -self.omega_max )
 
+    #need to know the distance from the goal
+    print "goal at (",str(self.goal[0]),",",str(self.goal[1]),")"
+    print "est.pose coord(",self.estimated_pose.x,",",self.estimated_pose.y,") angle: ", self.estimated_pose.theta
+    #next is to calculate the distance
+    d = sqrt(pow(abs(self.goal[0]-self.estimated_pose.x),2) + pow(abs(self.goal[1] - self.estimated_pose.y),2))
+    print "Distance to goal : ", d
+    #now get the distance in to equation
+    STOPPING_DISTANCE = 0.5  #meters from goal
+    
+
     # send the drive commands to the robot
     v_l, v_r = self._uni_to_diff( v, omega )
+    
+    if (d <= STOPPING_DISTANCE):
+        v_l = d/STOPPING_DISTANCE * v_l
+        v_r = d/STOPPING_DISTANCE * v_r
+
     self.robot.set_wheel_drive_rates( v_l, v_r )
 
   def _uni_to_diff( self, v, omega ):
