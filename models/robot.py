@@ -35,6 +35,13 @@ K3_WHEEL_BASE_LENGTH = 0.0885   # meters
 K3_WHEEL_TICKS_PER_REV = 2765
 K3_MAX_WHEEL_DRIVE_RATE = 15.0  # rad/s
 
+# Create2 Properties
+C2_WHEEL_RADIUS = 0.036          # meters
+C2_WHEEL_BASE_LENGTH = 0.235     # meters
+C2_WHEEL_TICKS_PER_REV = 508.8   # Create2 = 508.8
+C2_MAX_WHEEL_DRIVE_RATE = 13.9   # rad/s 13.9
+
+
 # Khepera III Dimensions
 K3_BOTTOM_PLATE = [[ -0.024,  0.064 ],
                    [  0.033,  0.064 ],
@@ -49,8 +56,25 @@ K3_BOTTOM_PLATE = [[ -0.024,  0.064 ],
                    [ -0.048,  0.010 ],
                    [ -0.042,  0.043 ]]
 
+C2_BOTTOM_PLATE = [[ -0.043,  0.159 ],
+                   [  0.045,  0.168 ],
+                   [  0.123,  0.123 ],
+                   [  0.168,  0.045 ],
+                   [  0.168, -0.045 ],
+                   [  0.123, -0.123 ],
+                   [  0.045, -0.168 ],
+                   [ -0.043, -0.159 ],
+                   [ -0.117, -0.117 ],
+                   [ -0.159, -0.043 ],
+                   [ -0.159,  0.043 ],
+                   [ -0.117,  0.117 ]]
+                   
+
 K3_SENSOR_MIN_RANGE = 0.02
 K3_SENSOR_MAX_RANGE = 0.2
+C2_SENSOR_MIN_RANGE = 0.02
+C2_SENSOR_MAX_RANGE = 0.9
+
 K3_SENSOR_POSES = [[ -0.038,  0.048,  128 ], # x, y, theta_degrees
                    [  0.019,  0.064,  75  ],
                    [  0.050,  0.050,  42  ],
@@ -60,39 +84,56 @@ K3_SENSOR_POSES = [[ -0.038,  0.048,  128 ], # x, y, theta_degrees
                    [  0.019, -0.064, -75  ],
                    [ -0.038, -0.048, -128 ],
                    [ -0.048,  0.000,  180 ]]
+                   
+C2_SENSOR_POSES = [[  0.173, 0.0,  90  ],
+                   [  0.173, 0.0,  45  ],
+                   [  0.173, 0.0,  15  ],
+                   [  0.173, 0.0, -15  ],
+                   [  0.173, 0.0, -45  ],
+                   [  0.173, 0.0, -90  ]]
 
-class Robot: # Khepera III robot 
+
+#C2_SENSOR_POSES = [[  0.045,  0.168,  90  ],
+#                   [  0.123,  0.123,  45  ],
+#                   [  0.168,  0.045,  15  ],
+#                   [  0.168, -0.045, -15  ],
+#                   [  0.123, -0.123, -45  ],
+#                   [  0.045, -0.168, -90  ]]
+
+
+# Khepera III robot 
+class Robot: # Create2 robot 
   
   def __init__( self ):
     # geometry
-    self.geometry = Polygon( K3_BOTTOM_PLATE )
-    self.global_geometry = Polygon( K3_BOTTOM_PLATE ) # actual geometry in world space
+    self.geometry = Polygon( C2_BOTTOM_PLATE )
+    self.global_geometry = Polygon( C2_BOTTOM_PLATE ) # actual geometry in world space
 
     # wheel arrangement
-    self.wheel_radius = K3_WHEEL_RADIUS             # meters
-    self.wheel_base_length = K3_WHEEL_BASE_LENGTH   # meters
+    self.wheel_radius = C2_WHEEL_RADIUS             # meters
+    self.wheel_base_length = C2_WHEEL_BASE_LENGTH   # meters
 
     # pose
     self.pose = Pose( 0.0, 0.0, 0.0 )
 
     # wheel encoders
-    self.left_wheel_encoder = WheelEncoder( K3_WHEEL_TICKS_PER_REV )
-    self.right_wheel_encoder = WheelEncoder( K3_WHEEL_TICKS_PER_REV )
+    self.left_wheel_encoder = WheelEncoder( C2_WHEEL_TICKS_PER_REV )
+    self.right_wheel_encoder = WheelEncoder( C2_WHEEL_TICKS_PER_REV )
     self.wheel_encoders = [ self.left_wheel_encoder, self.right_wheel_encoder ]
     
     # IR sensors
     self.ir_sensors = []
-    for _pose in K3_SENSOR_POSES:
+    for _pose in C2_SENSOR_POSES:
       ir_pose = Pose( _pose[0], _pose[1], radians( _pose[2] ) )
       self.ir_sensors.append(
-          ProximitySensor( self, ir_pose, K3_SENSOR_MIN_RANGE, K3_SENSOR_MAX_RANGE, radians( 20 ) ) )
+          ProximitySensor( self, ir_pose, C2_SENSOR_MIN_RANGE, C2_SENSOR_MAX_RANGE, radians( 20 ) ) )
 
     # dynamics
     self.dynamics = DifferentialDriveDynamics( self.wheel_radius, self.wheel_base_length )
 
     # supervisor
     self.supervisor = Supervisor( RobotSupervisorInterface( self ),
-                                  K3_WHEEL_RADIUS, K3_WHEEL_BASE_LENGTH, K3_WHEEL_TICKS_PER_REV, K3_SENSOR_POSES, K3_SENSOR_MAX_RANGE )
+                                  C2_WHEEL_RADIUS, C2_WHEEL_BASE_LENGTH, C2_WHEEL_TICKS_PER_REV, C2_SENSOR_POSES, C2_SENSOR_MAX_RANGE )
     
     ## initialize state
     # set wheel drive rates (rad/s)
@@ -118,8 +159,8 @@ class Robot: # Khepera III robot
   # set the drive rates (angular velocities) for this robot's wheels in rad/s 
   def set_wheel_drive_rates( self, v_l, v_r ):
     # simulate physical limit on drive motors
-    v_l = min( K3_MAX_WHEEL_DRIVE_RATE, v_l )
-    v_r = min( K3_MAX_WHEEL_DRIVE_RATE, v_r )
+    v_l = min( C2_MAX_WHEEL_DRIVE_RATE, v_l )
+    v_r = min( C2_MAX_WHEEL_DRIVE_RATE, v_r )
 
     # set drive rates
     self.left_wheel_drive_rate = v_l
