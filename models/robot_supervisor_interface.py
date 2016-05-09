@@ -18,7 +18,7 @@
 
 from irobotcreate2control import *
 
-ISCREATE2CONNECTED = 0
+ISCREATE2CONNECTED = 1
 
 # a class representing the available interactions a supervisor may have with a robot
 class RobotSupervisorInterface:

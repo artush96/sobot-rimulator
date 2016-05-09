@@ -28,14 +28,14 @@ class IRobotController:
       self.world = World( self.period )
       
       #create the robot
-      robot = Robot()
-      self.world.add_robot( robot )
+      self.robot = Robot()
+      self.world.add_robot( self.robot )
 
       
       #using a map
       #self.map_manager.random_map( self.world )
       self.map_manager.load_map('maps/cake')
-      goal = [2.5, 0.5]
+      goal = [0.75, 0.75]
       self.map_manager.set_goal(goal)
       self.map_manager.apply_to_world(self.world)
 
@@ -44,6 +44,7 @@ class IRobotController:
       self._run_sim()
       
    def end_sim( self, alert_text='' ):
+      self.robot.supervisor._stop_robot()
       gobject.source_remove( self.sim_event_source )
       
    def _run_sim( self ):

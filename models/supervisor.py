@@ -183,7 +183,7 @@ class Supervisor:
     d = sqrt(pow(abs(self.goal[0]-self.estimated_pose.x),2) + pow(abs(self.goal[1] - self.estimated_pose.y),2))
     print "Distance to goal : ", d
     #now get the distance in to equation
-    STOPPING_DISTANCE = 0.5  #meters from goal
+    STOPPING_DISTANCE = 0.2  #meters from goal
     
 
     # send the drive commands to the robot
@@ -193,6 +193,11 @@ class Supervisor:
         v_l = d/STOPPING_DISTANCE * v_l
         v_r = d/STOPPING_DISTANCE * v_r
 
+    self.robot.set_wheel_drive_rates( v_l, v_r )
+
+  def _stop_robot( self ):
+    v_l = 0.0
+    v_r = 0.0
     self.robot.set_wheel_drive_rates( v_l, v_r )
 
   def _uni_to_diff( self, v, omega ):
