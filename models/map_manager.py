@@ -130,7 +130,9 @@ class MapManager:
     with open( filename, 'rb' ) as file:
       self.current_obstacles = pickle.load( file )
       self.current_goal = pickle.load( file )
-      
+
+  def set_goal( self, goal = [0.0, 0.0] ):
+    self.current_goal = goal
       
   def apply_to_world( self, world ):
     # add the current obstacles
